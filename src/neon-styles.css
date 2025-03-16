@@ -1,0 +1,25 @@
+:root {
+  --color-title: #d2f6f87d;
+}
+
+.intro__title {
+  grid-area: intro;
+  place-items: center;
+  margin: 0;
+  display: grid;
+  position: relative;
+  z-index: 5; /* Lower z-index to appear behind other elements */
+}
+
+.intro__title-pre {
+  font-size: clamp(1rem, 20vw, 10rem);
+  color: var(--color-title);
+  font-weight: 400;
+  text-transform: uppercase;
+  font-family: 'AlphaLyrae', sans-serif;
+  text-shadow: 0 0 15px var(--color-title), 0 0 30px var(--color-title);
+}
+
+.intro__title-pre::first-letter {
+  font-feature-settings: 'ss01' 1;
+}

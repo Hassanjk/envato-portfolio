@@ -1,140 +1,21 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ChevronDown, Smile } from 'lucide-react';
-import AboutMe from './pages/AboutMe';
-import Contact from './pages/Contact';
-import NavigationMenu from './components/NavigationMenu';
-import { gsap } from 'gsap';
-import { Observer } from 'gsap/Observer';
-import { useScrollStore } from './store/useScrollStore';
-import './styles/singleProject.css';
-import FollowPage from './pages/FollowPage';
+import React from 'react';
+import { Twitter, Dribbble, Facebook, Linkedin, AtSign, ChevronLeft, ChevronRight } from 'lucide-react';
+import Girl from './assets/img/girl.png';
+import './neon-styles.css';
 
-gsap.registerPlugin(Observer);
-
-function AppContent() {
-  const { currentView, setCurrentView, isAnimating, setIsAnimating } = useScrollStore();
-  const view1Ref = useRef<HTMLDivElement>(null);
-  const view2Ref = useRef<HTMLDivElement>(null);
-  const view3Ref = useRef<HTMLDivElement>(null);
-  const view4Ref = useRef<HTMLDivElement>(null);
-
-  const handleViewTransition = (direction: 'up' | 'down', targetView: number) => {
-    if (isAnimating) return;
-    
-    if (currentView === 1 && targetView !== 2) return;
-    if (currentView === 2 && targetView !== 1 && targetView !== 3) return;
-    if (currentView === 3 && targetView !== 2 && targetView !== 4) return;
-    if (currentView === 4 && targetView !== 3) return;
-
-    setIsAnimating(true);
-
-    const tl = gsap.timeline({
-      defaults: { duration: 1.5, ease: "power2.inOut" },
-      onComplete: () => setIsAnimating(false)
-    });
-
-    if (currentView === 1 && targetView === 2) {
-      tl.to(view1Ref.current, { yPercent: -100 })
-        .fromTo(view2Ref.current, 
-          { yPercent: 100, visibility: 'visible' },
-          { yPercent: 0 },
-          "<"
-        )
-        .add(() => setCurrentView(2));
-    } else if (currentView === 2 && targetView === 1) {
-      tl.to(view2Ref.current, { yPercent: 100 })
-        .fromTo(view1Ref.current,
-          { yPercent: -100, visibility: 'visible' },
-          { yPercent: 0 },
-          "<"
-        )
-        .add(() => setCurrentView(1));
-    } else if (currentView === 2 && targetView === 3) {
-      tl.to(view2Ref.current, { yPercent: -100 })
-        .fromTo(view3Ref.current,
-          { yPercent: 100, visibility: 'visible' },
-          { yPercent: 0 },
-          "<"
-        )
-        .add(() => setCurrentView(3));
-    } else if (currentView === 3 && targetView === 2) {
-      tl.to(view3Ref.current, { yPercent: 100 })
-        .fromTo(view2Ref.current,
-          { yPercent: -100, visibility: 'visible' },
-          { yPercent: 0 },
-          "<"
-        )
-        .add(() => setCurrentView(2));
-    } else if (currentView === 3 && targetView === 4) {
-      tl.to(view3Ref.current, { yPercent: -100 })
-        .fromTo(view4Ref.current,
-          { yPercent: 100, visibility: 'visible' },
-          { yPercent: 0 },
-          "<"
-        )
-        .add(() => setCurrentView(4));
-    } else if (currentView === 4 && targetView === 3) {
-      tl.to(view4Ref.current, { yPercent: 100 })
-        .fromTo(view3Ref.current,
-          { yPercent: -100, visibility: 'visible' },
-          { yPercent: 0 },
-          "<"
-        )
-        .add(() => setCurrentView(3));
-    }
-  };
-
-  useEffect(() => {
-    gsap.set([view1Ref.current, view2Ref.current, view3Ref.current, view4Ref.current], { 
-      visibility: 'visible' 
-    });
-    gsap.set(view1Ref.current, { yPercent: currentView === 1 ? 0 : -100 });
-    gsap.set(view2Ref.current, { yPercent: currentView === 2 ? 0 : 100 });
-    gsap.set(view3Ref.current, { yPercent: currentView === 3 ? 0 : 100 });
-    gsap.set(view4Ref.current, { yPercent: currentView === 4 ? 0 : 100 });
-
-    const observer = Observer.create({
-      target: window,
-      type: 'wheel',
-      onChange: (event) => {
-        if (isAnimating) return;
-
-        const scrollingDown = event.deltaY > 0;
-        if (currentView === 1 && scrollingDown) {
-          handleViewTransition('down', 2);
-        } else if (currentView === 2) {
-          if (scrollingDown) {
-            handleViewTransition('down', 3);
-          } else {
-            handleViewTransition('up', 1);
-          }
-        } else if (currentView === 3 && !scrollingDown) {
-          handleViewTransition('up', 2);
-        } else if (currentView === 4 && !scrollingDown) {
-          handleViewTransition('up', 3);
-        }
-      },
-      preventDefault: true
-    });
-
-    return () => {
-      if (observer) observer.kill();
-    };
-  }, [currentView, isAnimating]);
-
+function App() {
   return (
-    <div className="bg-black min-h-screen text-white overflow-hidden">
+    <div className="bg-zinc-900 min-h-screen text-white overflow-hidden">
       {/* Black Borders */}
-      <div className="fixed inset-0 border-black z-50 pointer-events-none">
-        <div className="absolute top-0 left-0 w-24 h-full bg-black"></div>
-        <div className="absolute top-0 right-0 w-24 h-full bg-black flex items-end pb-8">
-          <div className="text-[200px] font-bold text-black/20 -rotate-90 origin-bottom-left translate-y-full ml-8">
+      <div className="fixed inset-0 z-50 pointer-events-none">
+        <div className="absolute top-0 left-0 w-24 h-full bg-zinc-900"></div>
+        <div className="absolute top-0 right-0 w-24 h-full bg-zinc-900 overflow-hidden">
+          <div className="absolute bottom-0 right-0 transform -rotate-90 origin-top-left translate-y-24 text-[180px] font-bold tracking-tighter text-zinc-800/20 whitespace-nowrap">
             KEZTA
           </div>
         </div>
-        <div className="absolute bottom-0 left-24 right-24 h-24 bg-black"></div>
-        <div className="absolute top-0 left-24 right-24 h-16 bg-black"></div>
+        <div className="absolute bottom-0 left-24 right-24 h-24 bg-zinc-900"></div>
+        <div className="absolute top-0 left-24 right-24 h-16 bg-zinc-900"></div>
       </div>
 
       {/* Navigation Menu */}
@@ -142,88 +23,106 @@ function AppContent() {
         <div className="flex items-center gap-2 ml-24">
           <h1 className="text-2xl font-bold tracking-wider">KEZTA</h1>
         </div>
-        <div className="flex gap-8 mr-24">
-          <a href="#" className="text-yellow-500">Home</a>
-          <a href="#" className="text-gray-300 hover:text-white transition-colors">About</a>
-          <a href="#" className="text-gray-300 hover:text-white transition-colors">Portfolio</a>
-          <a href="#" className="text-gray-300 hover:text-white transition-colors">Stories</a>
-          <a href="#" className="text-gray-300 hover:text-white transition-colors">Contact</a>
+        <div className="flex gap-12 mr-24 text-lg">
+          <a href="#" className="text-[#FF0099] font-medium">Home</a>
+          <a href="#" className="text-gray-400 hover:text-white transition-colors">About</a>
+          <a href="#" className="text-gray-400 hover:text-white transition-colors">Portfolio</a>
+          <a href="#" className="text-gray-400 hover:text-white transition-colors">Stories</a>
+          <a href="#" className="text-gray-400 hover:text-white transition-colors">Contact</a>
         </div>
       </nav>
 
       {/* Social Links */}
-      <div className="fixed left-8 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-6">
-        <a href="#" className="text-gray-400 hover:text-yellow-500 transition-colors">Twitter</a>
-        <a href="#" className="text-gray-400 hover:text-yellow-500 transition-colors">Bē</a>
-        <a href="#" className="text-yellow-500">Facebook</a>
-        <a href="#" className="text-gray-400 hover:text-yellow-500 transition-colors">LinkedIn</a>
-        <a href="#" className="text-gray-400 hover:text-yellow-500 transition-colors">Dribbble</a>
+      <div className="fixed left-8 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-8">
+        <a href="#" className="text-gray-500 hover:text-[#FF0099] transition-colors"><Twitter size={22} /></a>
+        <a href="#" className="text-gray-500 hover:text-[#FF0099] transition-colors"><AtSign size={22} /></a>
+        <a href="#" className="text-[#9B30FF]"><Facebook size={22} /></a>
+        <a href="#" className="text-gray-500 hover:text-[#FF0099] transition-colors"><Linkedin size={22} /></a>
+        <a href="#" className="text-gray-500 hover:text-[#FF0099] transition-colors"><Dribbble size={22} /></a>
       </div>
 
-      {/* Views Container */}
-      <div className="relative w-full h-screen overflow-hidden">
-        {/* View 1 - Hero */}
-        <div ref={view1Ref} className="view view--1">
-          <div className="relative min-h-screen">
-            {/* Background Image */}
-            <div 
-              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-              style={{
-                backgroundImage: 'url(https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80)',
-                margin: '4rem 6rem 6rem 6rem'
-              }}
-            >
-              {/* Dark Overlay */}
-              <div className="absolute inset-0 bg-black/60"></div>
-            </div>
-            
-            {/* Hero Content */}
-            <div className="absolute bottom-32 right-32 z-10">
-              <div className="bg-yellow-500 p-8 max-w-md">
-                <div className="text-sm mb-2">01</div>
-                <h2 className="text-4xl font-bold mb-2">Structure</h2>
-                <p className="mb-4">The freeware for community</p>
-                <div className="text-sm">LIFESTYLE</div>
+      {/* Main Content */}
+      <div className="relative min-h-screen">
+        {/* Gradient Background */}
+        <div 
+          className="absolute inset-0"
+          style={{
+            background: 'linear-gradient(135deg, #9B30FF 0%, #FF0099 40%, #1687A7 80%, #063C4D 100%)'
+          }}
+        >
+          {/* Additional Glow */}
+          <div 
+            className="absolute inset-0"
+            style={{
+              background: 'radial-gradient(circle at 70% center, #9B30FF, transparent 70%)',
+              opacity: 0.5,
+              filter: 'blur(20px)'
+            }}
+          ></div>
+          {/* Darker overlay on left side for better image merge */}
+          <div 
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: 'linear-gradient(90deg, rgba(0,0,0,1.3) 2%, transparent 50%)'
+            }}
+          ></div>
+        </div>
+        
+        {/* Futuristic Neon Text */}
+        <div 
+          className="absolute" 
+          style={{
+            top: '25%',
+            left: '11%',
+            width: '100%',
+            zIndex: 5 /* Set lower than image and content box */
+          }}
+        >
+          <h1 className="intro__title">
+            <span className="intro__title-pre">Xtynct</span>
+          </h1>
+        </div>
+        
+        {/* Absolute Positioned Girl Image */}
+        <img 
+          src={Girl} 
+          alt="Girl" 
+          className="absolute"
+          style={{
+            bottom: '10%',
+            left: '5%',
+            width: '37%',
+            zIndex: 10 /* Higher z-index to appear in front of text */
+          }}
+        />
+        
+        {/* Content Box - repositioned to left with prev/next arrows */}
+        <div className="absolute bottom-20 left-25 z-[9999]">
+          <div className="p-4 max-w-xs" style={{
+            background: 'rgba(255, 255, 255, 0.05)',
+            backdropFilter: 'blur(8px)',
+            border: '1px solid rgba(255, 255, 255, 0.15)',
+            boxShadow: '0 0 8px rgba(255, 255, 255, 0.2)',
+            borderRadius: '8px',
+            opacity: 0.8
+          }}>
+            <div className="flex items-center justify-between">
+              <button className="p-2 hover:text-[#FF0099]"><ChevronLeft size={24} /></button>
+              <div>
+                <div className="text-xs font-medium mb-1">01</div>
+                <h2 className="text-3xl font-bold mb-2">Structure</h2>
               </div>
-            </div>
-
-            {/* Page Counter */}
-            <div className="absolute bottom-32 left-32 text-gray-400">
-              01 <span className="mx-4">—</span> 05
+              <button className="p-2 hover:text-[#FF0099]"><ChevronRight size={24} /></button>
             </div>
           </div>
         </div>
 
-        {/* View 2 - Projects */}
-        <div ref={view2Ref} className="view view--2 w-full h-screen overflow-hidden">
-          <FollowPage />
-        </div>
-
-        {/* View 3 - About */}
-        <div ref={view3Ref} className="view view--3">
-          <AboutMe 
-            onNavigateBack={() => handleViewTransition('up', 2)}
-            onNavigateToContact={() => handleViewTransition('down', 4)}
-          />
-        </div>
-
-        {/* View 4 - Contact */}
-        <div ref={view4Ref} className="view view--4">
-          <Contact onNavigateBack={() => handleViewTransition('up', 3)} />
+        {/* Page Counter */}
+        <div className="absolute bottom-32 left-32 text-gray-400 text-lg tracking-wider">
+          <span className="text-[#FF0099] font-medium">01</span> <span className="mx-4">—</span> <span className="font-medium">05</span>
         </div>
       </div>
     </div>
-  );
-}
-
-function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<AppContent />} />
-        <Route path="/follow" element={<FollowPage />} />
-      </Routes>
-    </Router>
   );
 }
 
