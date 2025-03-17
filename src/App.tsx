@@ -36,16 +36,16 @@ function App() {
         {/* Slim Bottom Border */}
         <div className="absolute bottom-0 left-12 right-12 h-10 bg-zinc-900"></div>
         
-        {/* Slim Top Border */}
-        <div className="absolute top-0 left-12 right-12 h-8 bg-zinc-900"></div>
+        {/* Top border removed since we have painted nav background */}
       </div>
 
-      {/* Navigation Menu - Adjusted for new border sizes */}
-      <nav className="fixed top-0 left-0 right-0 z-50 px-8 py-4 flex justify-between items-center">
-        <div className="flex items-center gap-2 ml-14">
+      {/* Navigation Menu - With painted background */}
+      <nav className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center">
+        <div className="absolute inset-x-12 top-0 h-16 bg-gradient-to-r from-zinc-900 via-zinc-800/60 to-zinc-900 backdrop-blur-sm border-b border-zinc-800/50"></div>
+        <div className="flex items-center gap-2 ml-14 py-4 z-10">
           <h1 className="text-xl font-bold tracking-wider">KEZTA</h1>
         </div>
-        <div className="flex gap-8 mr-14 text-base">
+        <div className="flex gap-8 mr-14 py-4 text-base z-10">
           <button 
             onClick={() => handleNavigate(1)} 
             className={`${currentView === 1 ? "text-[#FF0099] font-medium" : "text-gray-400 hover:text-white transition-colors"}`}
@@ -116,7 +116,7 @@ function App() {
         {/* Home Page - Adjusted for new border sizes */}
         <div className="h-screen relative">
           <div 
-            className="absolute inset-0 mx-12 my-8 rounded-lg overflow-hidden"
+            className="absolute inset-0 mx-12 mt-16 mb-10 rounded-lg overflow-hidden"
             style={{
               background: 'linear-gradient(135deg, #9B30FF 0%, #FF0099 40%, #1687A7 80%, #063C4D 100%)'
             }}
@@ -141,14 +141,37 @@ function App() {
             className="absolute" 
             style={{
               top: '25%',
-              left: '15%',
-              width: '100%',
+              left: '30%', // Increased from 15% to 25% to move content to the right
+              width: '65%', // Adjusted width
               zIndex: 5
             }}
           >
             <h1 className="intro__title">
               <span className="intro__title-pre">Xtynct</span>
             </h1>
+            <div className="flex justify-center mt-6">
+              <button 
+                onClick={() => handleNavigate(2)} 
+                className="px-6 py-3 bg-gradient-to-r from-[#FF0099] to-[#9B30FF] text-white font-medium rounded-md flex items-center gap-2 hover:shadow-lg hover:shadow-[#FF0099]/20 transition-all duration-300 hover:-translate-y-1 group"
+              >
+                <span>Explore Projects</span>
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  width="20" 
+                  height="20" 
+                  viewBox="0 0 24 24" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  strokeWidth="2" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  className="transition-transform duration-300 group-hover:translate-x-1"
+                >
+                  <path d="M5 12h14"></path>
+                  <path d="m12 5 7 7-7 7"></path>
+                </svg>
+              </button>
+            </div>
           </div>
           
           <img 
@@ -156,9 +179,9 @@ function App() {
             alt="Girl" 
             className="absolute"
             style={{
-              bottom: '10%',
-              left: '10%',
-              width: '35%',
+              bottom: '2%',
+              left: '4%',
+              width: '40%',
               zIndex: 10
             }}
           />
