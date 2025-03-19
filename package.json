@@ -12,6 +12,7 @@
   "dependencies": {
     "@fontsource-variable/inter": "^5.2.5",
     "@fontsource/cardo": "^5.2.5",
+    "framer-motion": "^11.0.3",
     "gsap": "^3.12.7",
     "imagesloaded": "^5.0.0",
     "locomotive-scroll": "^4.0.6",
